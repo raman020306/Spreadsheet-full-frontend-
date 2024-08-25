@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Spreadsheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        /* Style for the navigation bar */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #054e5a;
+            padding: 15px 30px;
+            color: white;
+            height: 60px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 88px;
+            /* Adjust height as needed */
+            width: 150px;
+            /* Keep aspect ratio */
+            margin-right: 15px;
+            /* Space between logo and text */
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #f8b400;
+        }
+
+        /* Style for the controls and add form */
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 30px;
+        }
+
+        #controls input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        #controls button {
+            background-color: #1e2a38;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #controls button:hover {
+            background-color: #3b4a61;
+        }
+
+        #add-form {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px 30px;
+        }
+
+        #add-form h3 {
+            margin: 0 0 15px 0;
+            font-size: 20px;
+            color: #1e2a38;
+        }
+
+        #add-form input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+        }
+
+        #add-form button {
+            background-color: #1e2a38;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        #add-form button:hover {
+            background-color: #3b4a61;
+        }
+
+        /* Style for the table */
+        table {
+            width: calc(100% - 60px);
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #054e5a;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Style for buttons in table */
+        table button {
+            background-color: #1e2a38;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        table button:hover {
+            background-color: #3b4a61;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <img src="https://logodix.com/logo/1842302.jpg" alt="">
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Login</a>
+        </div>
+    </nav>
+
+
+
+
+
+    <div id="controls">
+        <input type="text" id="search-input" placeholder="Search...">
+        <button onclick="showAddForm()">Add Row</button>
+        <!-- <button type="submit"
+            class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none">
+            Send Message
+        </button> -->
+        <button onclick="deleteAllRows()" style="background-color: red;">Delete All</button>
+    </div>
+
+
+    <!-- <div id="add-form" action="https://api.web3forms.com/submit" method="POST">
+        <h3>Add New Row</h3>
+        <input type="hidden" name="access_key" value="77ad831e-72b4-412f-adbc-3d70c89e09ad" />
+        <input type="text" id="PROJECT-NUMBER" placeholder="PROJECT-NUMBER">
+        <input type="text" id="CUSTOMER" placeholder="CUSTOMER">
+        <input type="text" id="MODEL-DESCRIPTION" placeholder="MODEL-DESCRIPTION">
+        <input type="text" id="PNR-NR" placeholder="PNR NR">
+
+
+        <button onclick="addRow()">Add</button>
+        <button onclick="hideAddForm()">Cancel</button>
+        <button>Send MR</button> -->
+    <!-- </div> -->
+    <form id="add-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="77ad831e-72b4-412f-adbc-3d70c89e09ad" />
+        <input type="text" name="PROJECT-NUMBER" id="PROJECT-NUMBER" placeholder="PROJECT-NUMBER"
+            class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+            required>
+        <input type="text" name="CUSTOMER" id="CUSTOMER" placeholder="CUSTOMER"
+            class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+            required>
+        <input type="text" name="MODEL-DESCRIPTION" id="MODEL-DESCRIPTION" placeholder="MODEL-DESCRIPTION"
+            class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+            required>
+        <input type="text" name="PNR-NR" id="PNR-NR" placeholder="PNR NR"
+            class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+            required>
+        <div class="mb-6">
+            <button type="button" onclick="addRow()">Add</button>
+            <button type="button" onclick="hideAddForm()">Cancel</button>
+
+        </div>
+    </form>
+
+
+    <table id="spreadsheet">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>PROJECT-NUMBER</th>
+                <th>CUSTOMER</th>
+                <th>MODEL-DESCRIPTION</th>
+                <th>PNR NR</th>
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Example Row -->
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button onclick="editRow(this)">Edit</button> <button onclick="deleteRow(this)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        let serialNumber = 1;  // Initialize the counter for serial numbers
+
+        // Function to show the add row form
+        function showAddForm() {
+            document.getElementById('add-form').style.display = 'block';
+        }
+
+        // Function to hide the add row form
+        function hideAddForm() {
+            document.getElementById('add-form').style.display = 'none';
+        }
+
+        // Function to add a new row to the table
+        function addRow() {
+            const projectNumber = document.getElementById('PROJECT-NUMBER').value;
+            const customer = document.getElementById('CUSTOMER').value;
+            const modelDescription = document.getElementById('MODEL-DESCRIPTION').value;
+            const pnrNr = document.getElementById('PNR-NR').value;
+
+            const table = document.getElementById('spreadsheet').getElementsByTagName('tbody')[0];
+
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td>${serialNumber++}</td>
+                <td>${projectNumber}</td>
+                <td>${customer}</td>
+                <td>${modelDescription}</td>
+                <td>${pnrNr}</td>
+                <td><button onclick="editRow(this)">Edit</button> <button onclick="deleteRow(this)">Delete</button></td>
+            `;
+
+            document.getElementById('add-form').reset();
+            hideAddForm();
+        }
+
+        // Function to delete a row from the table
+        function deleteRow(button) {
+            const row = button.parentElement.parentElement;
+            row.parentElement.removeChild(row);
+
+            // Update serial numbers after deleting a row
+            updateSerialNumbers();
+        }
+
+        // Function to edit a row in the table
+        function editRow(button) {
+            const row = button.parentElement.parentElement;
+            const cells = row.getElementsByTagName('td');
+
+            if (button.innerText === 'Edit') {
+                for (let i = 1; i < cells.length - 1; i++) {  // Skip serial number and actions column
+                    const cell = cells[i];
+                    cell.innerHTML = `<input type="text" value="${cell.innerText}">`;
+                }
+                button.innerText = 'Save';
+            } else {
+                for (let i = 1; i < cells.length - 1; i++) {  // Skip serial number and actions column
+                    const cell = cells[i];
+                    cell.innerText = cell.getElementsByTagName('input')[0].value;
+                }
+                button.innerText = 'Edit';
+            }
+        }
+
+        // Function to filter rows based on search input
+        document.getElementById('search-input').addEventListener('input', function () {
+            const query = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#spreadsheet tbody tr');
+
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                let match = false;
+                for (let i = 1; i < cells.length - 1; i++) {  // Skip serial number and actions column
+                    if (cells[i].innerText.toLowerCase().includes(query)) {
+                        match = true;
+                        break;
+                    }
+                }
+                row.style.display = match ? '' : 'none';
+            });
+        });
+
+        // Function to update serial numbers after a row is deleted
+        function updateSerialNumbers() {
+            const rows = document.querySelectorAll('#spreadsheet tbody tr');
+            serialNumber = 1; // Reset serial number
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                cells[0].innerText = serialNumber++; // Update serial number
+            });
+        }
+
+        // Function to delete all rows
+        function deleteAllRows() {
+            const tbody = document.querySelector('#spreadsheet tbody');
+            if (tbody) {
+                tbody.innerHTML = ''; // Remove all rows from tbody
+            }
+            serialNumber = 1; // Reset the serial number counter
+        }
+    </script>
+</body>
+
+</html>
